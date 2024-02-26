@@ -1,11 +1,24 @@
-const config = require('./configs/config')
-const express = require('express')
-const app = express()
-const cors = require('cors')
-// const contactRouter = require('./controllers/agenda')
-// const middleware = require('./utils/middleware')
-const logger = require('./configs/logger')
 const mongoose = require('mongoose')
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const config = require('./configs/config')
+const logger = require('./configs/logger')
+
+// controllers
+const CreateAccountController = require('./controllers/createAccount')
+
+// repositories
+const UserRepository = require('./repositories/user')
+
+// routes
+const createAccountRouter = require('./routes/createAccount')
+
+// shcemas
+const User = require('./schemas/users')
+
+// use cases
+const CreateAccountService = require('./useCases/createAccount')
 
 
 logger.info('connecting to', config.MONGODB_URI)
