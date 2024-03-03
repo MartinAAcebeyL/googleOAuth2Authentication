@@ -6,12 +6,10 @@ services:
         build:
             context: .
         ports:
-            - ${PORT}:${DOCKER_PORT}
+            - 0.0.0.0:${PORT}:${DOCKER_PORT}
         restart: always
         volumes:
-            - .:/home/app
-        command: bash -c "npm install && npm run dev"
-
+            - .:/app
 networks:
     default:
         external:
