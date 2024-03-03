@@ -5,21 +5,24 @@ const app = express()
 const config = require('./configs/config')
 const logger = require('./configs/logger')
 
-// controllers
-const CreateAccountController = require('./controllers/createAccount')
-
-// repositories
-const UserRepository = require('./repositories/user')
-
-// routes
-const createAccountRouter = require('./routes/createAccount')
-
 // shcemas
 const User = require('./schemas/users')
 
-// use cases
-const CreateAccountService = require('./useCases/createAccount')
+// repositories
+const UserRepository = require('./repositories/user')
+const userRepository = new UserRepository(User)
 
+// use cases
+const UserUsecase = require('./usecases/user')
+const userUsecase = new UserUsecase(userRepository)
+
+// controllers
+const CreateAccountController = require('./controllers/createAccount')
+const createAccountController = new CreateAccountController(userUsecase)
+
+// routes
+const CreateAccountRouter = require('./routes/createAccount')
+const createAccountRouter = new CreateAccountRouter(createAccountController)
 
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -34,11 +37,8 @@ mongoose.connect(config.MONGODB_URI)
 app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
-// app.use(middleware.requestLogger)
 
-// app.use('/api/notes', contactRouter)
 
-// app.use(middleware.unknownEndpoint)
-// app.use(middleware.errorHandler)
+app.use('/api/v1/user', createAccountRouter.getRouter())
 
 module.exports = app

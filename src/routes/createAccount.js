@@ -1,6 +1,13 @@
-const createAccountRouter = require('express').Router();
-const { createAccount } = require('../controllers/createAccount');
+class CreateAccountRouter {
+    constructor(accountController) {
+        this.accountController = accountController;
+        this.createAccountRouter = require('express').Router();
+    }
 
-createAccountRouter.post('/', createAccount);
+    getRouter() {
+        this.createAccountRouter.post('/createAccount/123', this.accountController.handle);
+        return this.createAccountRouter;
+    }
+}
 
-module.exports = createAccountRouter;
+module.exports = CreateAccountRouter;
