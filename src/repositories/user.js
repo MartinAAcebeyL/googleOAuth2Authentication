@@ -3,8 +3,9 @@ class UserRepository {
         this.User = User;
     }
 
-    async createNewUser(name, lastName, email, password, phone, isInstitute=false) {
-        return await this.User.create({ name, lastName, email, password, phone, isInstitute });
+    async createNewUser(name, lastName, phone, email, password, isInstitute = false) {
+        const user = await this.User.create({ name, lastName, phone, email, password, isInstitute });
+        return user;
     }
 }
 

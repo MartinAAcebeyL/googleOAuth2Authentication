@@ -1,19 +1,32 @@
+const { transformError, hashPassword } = require('../utils/utils');
+
 class CreateAccountController {
     constructor(userUsecase) {
-        console.log('userUsecase', userUsecase);
         this.userUsecase = userUsecase;
-        console.log('this.userUsecase', this.userUsecase);
     }
 
     async handle(request, response) {
         try {
-            const { name, email, password } = request.body;
-            const user = await this.userUsecase.createUser(name, email, password);
+            const { name, lastName, phone, email, password } = request.body;
+            const passwordHash = await hashPassword(password);
+            const user = await this.userUsecase.createUser(name, lastName, phone, email, passwordHash);
             return response.status(201).json(user);
         } catch (error) {
-            return response.status(400).json({ message: error.message });
+            if (error.name === 'ValidationError') {
+                return response.status(400).json({
+                    message: "Validation error",
+                    errors: transformError(error)
+                });
+            } else {
+                return response.status(500).json({
+                    message: "Internal server error",
+                    error: error.message
+                });
+            }
         }
     }
+
+
 }
 
 module.exports = CreateAccountController;

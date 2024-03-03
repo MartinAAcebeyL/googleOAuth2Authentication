@@ -5,7 +5,7 @@ class CreateAccountRouter {
     }
 
     getRouter() {
-        this.createAccountRouter.post('/createAccount/123', this.accountController.handle);
+        this.createAccountRouter.post('/createAccount/', (req, res) => this.accountController.handle(req, res));
         return this.createAccountRouter;
     }
 }
