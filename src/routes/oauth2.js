@@ -10,6 +10,7 @@ class OAuth2Router {
         this.router.get(
             url, (req, res) => {
                 const authorizeUrl = this.oauth2Usecase.makeAuthUrl()
+                console.log("authorizeUrl", authorizeUrl)
                 res.redirect(authorizeUrl)
             });
         return this.router;
@@ -20,6 +21,7 @@ class OAuth2Router {
 
         this.router.get(url, (req, res) => {
             try {
+                console.log("callback")
                 this.oauth2Usecase.obtainTokenOfClient(req)
                 console.info("Authentication successful!")
                 res.send('Authentication successful! You can close this tab now.');
