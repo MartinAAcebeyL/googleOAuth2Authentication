@@ -9,9 +9,8 @@ class OAuth2 {
         // create an oAuth client to authorize the API call.  Secrets are kept in a `service_account.json` file,
         // which should be downloaded from the Google Developers Console.
         this.oAuth2Client = new OAuth2Client(
-            keys.web.client_id,
-            keys.web.client_secret,
-            keys.web.redirect_uris[0]
+            keys.client_id,
+            keys.client_secret,
         );
     }
 

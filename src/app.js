@@ -1,6 +1,6 @@
+const express = require('express')
 const app = express()
 const cors = require('cors')
-const express = require('express')
 const mongoose = require('mongoose')
 
 const config = require('./configs/config')
@@ -29,8 +29,9 @@ const CreateAccountRouter = require('./routes/createAccount')
 const OAuth2Router = require("./routes/oauth2")
 
 const createAccountRouter = new CreateAccountRouter(createAccountController)
-const oauth2Router = new OAuth2Router();
+const oauth2Router = new OAuth2Router(oauth2Usecase);
 
+const startUrl = '/api/v1';
 
 mongoose.connect(config.MONGODB_URI)
     .then(() => {
@@ -44,7 +45,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
-app.use('/api/v1/user', createAccountRouter.getAllRoutes())
-app.use('/api/v1/', oauth2Router.getAllRoutes())
+app.use(`${startUrl}/user`, createAccountRouter.createAccountRoute())
+app.use(startUrl, oauth2Router.redirectRouter())
+app.use(startUrl, oauth2Router.callbackRouter())
+
 
 module.exports = app
