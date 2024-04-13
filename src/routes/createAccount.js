@@ -4,8 +4,16 @@ class CreateAccountRouter {
         this.createAccountRouter = require('express').Router();
     }
 
-    getRouter() {
-        this.createAccountRouter.post('/createAccount/', (req, res) => this.accountController.handle(req, res));
+    createAccountRoute() {
+        const url = '/createAccount/';
+        this.createAccountRouter.post(
+            url, (req, res) => {
+                this.accountController.handle(req, res)
+            });
+        return this.createAccountRouter;
+    }
+
+    getAllRoutes() {
         return this.createAccountRouter;
     }
 }
