@@ -18,11 +18,10 @@ class OAuth2Router {
 
     callbackRouter() {
         const url = '/auth/google/callback';
-
-        this.router.get(url, (req, res) => {
+        this.router.get(url, async (req, res) => {
             try {
-                console.log("callback")
-                this.oauth2Usecase.obtainTokenOfClient(req)
+                const tokens = await this.oauth2Usecase.obtainTokenOfClient(req)
+                await this.oauth2Usecase.getPayload(tokens)
                 console.info("Authentication successful!")
                 res.send('Authentication successful! You can close this tab now.');
             } catch (error) {
