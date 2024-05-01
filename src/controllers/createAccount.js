@@ -8,6 +8,7 @@ class CreateAccountController {
     async handle(request, response) {
         try {
             const { name, lastName, phone, email, password } = request.body;
+            this.validPassword(password)
             const passwordHash = await hashPassword(password);
             const user = await this.userUsecase.createUser(name, lastName, phone, email, passwordHash);
             return response.status(201).json(user);
@@ -26,7 +27,13 @@ class CreateAccountController {
         }
     }
 
-
+    validPassword(password) {
+        if (password == undefined) {
+            const error = new Error("Password is necessary to create an account by email flow");
+            error.name = "ValidationError";
+            throw error;
+        }
+    }
 }
 
 module.exports = CreateAccountController;

@@ -21,7 +21,8 @@ class OAuth2Router {
         this.router.get(url, async (req, res) => {
             try {
                 const tokens = await this.oauth2Usecase.obtainTokenOfClient(req)
-                await this.oauth2Usecase.getPayload(tokens)
+                const payload = await this.oauth2Usecase.getPayload(tokens);
+                console.info("Payload: ", payload);
                 console.info("Authentication successful!")
                 res.send('Authentication successful! You can close this tab now.');
             } catch (error) {
