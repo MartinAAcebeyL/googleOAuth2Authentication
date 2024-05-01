@@ -18,7 +18,7 @@ const UserUsecase = require('./usecases/user')
 const OAuth2 = require("./usecases/oauth2")
 
 const userUsecase = new UserUsecase(userRepository)
-const oauth2Usecase = new OAuth2(userRepository)
+const oauth2Usecase = new OAuth2(userUsecase)
 
 // controllers
 const CreateAccountController = require('./controllers/createAccount')
