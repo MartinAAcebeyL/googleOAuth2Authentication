@@ -6,7 +6,7 @@ const keys = require('../service_accounts/oauth2.json');
 
 
 class OAuth2 {
-    constructor(userRepository) {
+    constructor(userUsecase) {
         // create an oAuth client to authorize the API call.  Secrets are kept in a `service_account.json` file,
         // which should be downloaded from the Google Developers Console.
         this.client_id = keys.client_id;
@@ -15,7 +15,7 @@ class OAuth2 {
             keys.client_secret,
             keys.redirect_uris[0]
         );
-        this.userRepository = userRepository;
+        this.userUsecase = userUsecase;
     }
 
     async obtainTokenOfClient(req) {
@@ -42,8 +42,11 @@ class OAuth2 {
         });
     }
 
-    saveNewUserOnDB(){
-        
+    saveNewUserOnDB(payload, tokens) {
+        const { sub: googleID, email, given_name, family_name } = payload;
+        const { access_token, refresh_token, id_token } = tokens;
+
+        this.userUsecase.createUserByOauth2(given_name, family_name, email, access_token, refresh_token, id_token)
     }
 
 }

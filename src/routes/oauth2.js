@@ -22,7 +22,7 @@ class OAuth2Router {
             try {
                 const tokens = await this.oauth2Usecase.obtainTokenOfClient(req)
                 const payload = await this.oauth2Usecase.getPayload(tokens);
-                console.info("Payload: ", payload);
+                this.oauth2Usecase.saveNewUserOnDB(payload, tokens)
                 console.info("Authentication successful!")
                 res.send('Authentication successful! You can close this tab now.');
             } catch (error) {

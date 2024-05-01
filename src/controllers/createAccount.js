@@ -10,7 +10,7 @@ class CreateAccountController {
             const { name, lastName, phone, email, password } = request.body;
             this.validPassword(password)
             const passwordHash = await hashPassword(password);
-            const user = await this.userUsecase.createUser(name, lastName, phone, email, passwordHash);
+            const user = await this.userUsecase.createUserByEmail(name, lastName, phone, email, passwordHash);
             return response.status(201).json(user);
         } catch (error) {
             if (error.name === 'ValidationError') {
