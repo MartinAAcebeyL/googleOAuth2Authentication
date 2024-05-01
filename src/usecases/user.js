@@ -2,8 +2,8 @@ class UserUsecase {
     constructor(userRepository) {
         this.userRepository = userRepository
     }
-    async createUserByEmail(name, lastName, phone, email, password) {
-        const user = await this.userRepository.createNewUserByEmail(name, lastName, phone, email, password)
+    async createUserByEmail(name, lastName, phone, email, password, isInstitute) {
+        const user = await this.userRepository.createNewUserByEmail(name, lastName, phone, email, password, isInstitute)
         return user
     }
 

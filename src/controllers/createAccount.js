@@ -7,10 +7,10 @@ class CreateAccountController {
 
     async handle(request, response) {
         try {
-            const { name, lastName, phone, email, password } = request.body;
+            const { name, lastName, phone, email, password, isInstitute } = request.body;
             this.validPassword(password)
             const passwordHash = await hashPassword(password);
-            const user = await this.userUsecase.createUserByEmail(name, lastName, phone, email, passwordHash);
+            const user = await this.userUsecase.createUserByEmail(name, lastName, phone, email, passwordHash, isInstitute);
             return response.status(201).json(user);
         } catch (error) {
             if (error.name === 'ValidationError') {
