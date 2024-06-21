@@ -33,6 +33,26 @@ class OAuth2Router {
         return this.router;
     }
 
+    loginSingUp() {
+        const url = '/oauth/google/users'
+        this.router.get(url, async (req, res) => {
+            try {
+                const { access_token, refresh_token } = await this.oauth2Usecase.loginOrSingUpUser(req)
+
+                res.status(200).send({
+                    access_token, refresh_token
+                })
+            } catch (error) {
+                console.error(error.message)
+                res.status(500).send({
+                    "message": "something went wrong",
+                    "error": error.message
+                })
+            }
+        })
+        return this.router;
+    }
+
     getAllRoutes() {
         return this.router;
     }

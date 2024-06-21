@@ -28,6 +28,21 @@ class UserRepository {
         );
         return user;
     }
+
+    async getUserByGoogleId(googleId) {
+        return await this.User.findOne({ googleID:googleId });
+    }
+
+    async updateUserGoogleInfo(user, tokens) {
+        try {
+            user.access_token = tokens.access_token;
+            user.refresh_token = tokens.refresh_token;
+            user.id_token = tokens.id_token;
+            await user.save();
+        } catch (error) {
+            throw error; 
+        }
+    }
 }
 
 module.exports = UserRepository;

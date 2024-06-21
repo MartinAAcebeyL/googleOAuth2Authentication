@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 *.json
+package-lock.json
+*.html

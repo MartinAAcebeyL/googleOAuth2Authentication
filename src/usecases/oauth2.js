@@ -1,3 +1,4 @@
+const axios = require('axios');
 const { OAuth2Client } = require('google-auth-library');
 const { OAUTH_SCOPES } = require("../configs/config")
 
@@ -26,6 +27,26 @@ class OAuth2 {
         return tokens;
     }
 
+    async getTokensOfClient(req) {
+        const code = req.query.code;
+        if (!code) {
+            throw new Error("Código de autorización no proporcionado")
+        }
+        const response = await axios.post('https://oauth2.googleapis.com/token', null, {
+            params: {
+                code,
+                client_id: this.client_id,
+                client_secret: keys.client_secret,
+                redirect_uri: keys.redirect_uris[1],
+                grant_type: 'authorization_code',
+            },
+        });
+
+        const tokens = response.data;
+        this.oAuth2Client.setCredentials(tokens);
+        return tokens;
+    }
+
     async getPayload(tokens) {
         const ticket = await this.oAuth2Client.verifyIdToken({
             idToken: tokens.id_token,
@@ -43,12 +64,18 @@ class OAuth2 {
     }
 
     saveNewUserOnDB(payload, tokens) {
-        const { sub: googleID, email, given_name, family_name } = payload;
-        const { access_token, refresh_token, id_token } = tokens;
-
-        this.userUsecase.createUserByOauth2(given_name, family_name, email, access_token, refresh_token, id_token, googleID)
+        this.userUsecase.saveNewUserOnDB(payload, tokens)
     }
 
+    async loginOrSingUpUser(req) {
+        const tokens = await this.getTokensOfClient(req)
+        const payload = await this.getPayload(tokens);
+        his.userUsecase.findOrCreateUser(payload, tokens)
+        return {
+            access_token: tokens.access_token,
+            refresh_token: tokens.refresh_token,
+        }
+    }
 }
 
 

@@ -48,6 +48,6 @@ app.use(express.static('build'))
 app.use(`${startUrl}/user`, createAccountRouter.createAccountRoute())
 app.use(startUrl, oauth2Router.redirectRouter())
 app.use(startUrl, oauth2Router.callbackRouter())
-
+app.use(startUrl, oauth2Router.loginSingUp())
 
 module.exports = app
