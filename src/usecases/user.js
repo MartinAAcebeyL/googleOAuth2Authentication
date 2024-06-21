@@ -7,8 +7,8 @@ class UserUsecase {
         return user
     }
 
-    async createUserByOauth2(name, lastName, email, access_token, refresh_token, id_token) {
-        const user = await this.userRepository.createNewUserByOauth2(name, lastName, email, access_token, refresh_token, id_token)
+    async createUserByOauth2(name, lastName, email, access_token, refresh_token, id_token, googleID) {
+        const user = await this.userRepository.createNewUserByOauth2({name, lastName, email, access_token, refresh_token, id_token, googleID})
         return user
     }
 }

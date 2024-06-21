@@ -11,17 +11,20 @@ class UserRepository {
     }
 
     async createNewUserByOauth2(
-        name,
-        lastName,
-        email,
-        access_token,
-        refresh_token,
-        id_token,
-        isInstitute = false
+        {
+            name,
+            lastName,
+            email,
+            access_token,
+            refresh_token,
+            id_token,
+            googleID,
+            isInstitute = false
+        }
     ) {
         const loginType = "oauth2"
         const user = await this.User.create(
-            { name, lastName, email, access_token, refresh_token, id_token, loginType, isInstitute }
+            { name, lastName, email, access_token, refresh_token, id_token, loginType, isInstitute, googleID }
         );
         return user;
     }

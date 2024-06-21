@@ -46,7 +46,7 @@ class OAuth2 {
         const { sub: googleID, email, given_name, family_name } = payload;
         const { access_token, refresh_token, id_token } = tokens;
 
-        this.userUsecase.createUserByOauth2(given_name, family_name, email, access_token, refresh_token, id_token)
+        this.userUsecase.createUserByOauth2(given_name, family_name, email, access_token, refresh_token, id_token, googleID)
     }
 
 }

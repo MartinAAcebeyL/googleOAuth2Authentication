@@ -19,6 +19,7 @@ const userShema = new mongoose.Schema({
     access_token: { type: String },
     refresh_token: { type: String },
     id_token: { type: String },
+    googleID: { type: String },
     createdAt: { type: Date, required: true, default: Date.now },
     updatedAt: { type: Date, required: true, default: Date.now },
     deletedAt: { type: Date, required: false, default: null }
