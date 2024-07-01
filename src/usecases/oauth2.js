@@ -70,7 +70,7 @@ class OAuth2 {
     async loginOrSingUpUser(req) {
         const tokens = await this.getTokensOfClient(req)
         const payload = await this.getPayload(tokens);
-        his.userUsecase.findOrCreateUser(payload, tokens)
+        this.userUsecase.findOrCreateUser(payload, tokens)
         return {
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token,
