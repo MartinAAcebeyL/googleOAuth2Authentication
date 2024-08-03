@@ -29,8 +29,12 @@ class UserRepository {
         return user;
     }
 
+    async getUserByEmail(email) {
+        return await this.User.findOne({ email });
+    }
+
     async getUserByGoogleId(googleId) {
-        return await this.User.findOne({ googleID:googleId });
+        return await this.User.findOne({ googleID: googleId });
     }
 
     async updateUserGoogleInfo(user, tokens) {
@@ -40,7 +44,7 @@ class UserRepository {
             user.id_token = tokens.id_token;
             await user.save();
         } catch (error) {
-            throw error; 
+            throw error;
         }
     }
 }

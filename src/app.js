@@ -16,9 +16,11 @@ const userRepository = new UserRepository(User)
 // use cases
 const UserUsecase = require('./usecases/user')
 const OAuth2 = require("./usecases/oauth2")
+const JWTSingInUsecase = require('./usecases/jwt')
 
 const userUsecase = new UserUsecase(userRepository)
 const oauth2Usecase = new OAuth2(userUsecase)
+const jwtUsecase = new JWTSingInUsecase(userRepository)
 
 // controllers
 const CreateAccountController = require('./controllers/createAccount')
@@ -27,9 +29,11 @@ const createAccountController = new CreateAccountController(userUsecase)
 // routes
 const CreateAccountRouter = require('./routes/createAccount')
 const OAuth2Router = require("./routes/oauth2")
+const JWTSingInRouter = require('./routes/jwt')
 
 const createAccountRouter = new CreateAccountRouter(createAccountController)
 const oauth2Router = new OAuth2Router(oauth2Usecase);
+const jwtSingInRouter = new JWTSingInRouter(jwtUsecase);
 
 const startUrl = '/api/v1';
 
@@ -49,5 +53,7 @@ app.use(`${startUrl}/user`, createAccountRouter.createAccountRoute())
 app.use(startUrl, oauth2Router.redirectRouter())
 app.use(startUrl, oauth2Router.callbackRouter())
 app.use(startUrl, oauth2Router.loginSingUp())
+app.use(startUrl, jwtSingInRouter.login())
+app.use(startUrl, jwtSingInRouter.refreshToken())
 
 module.exports = app
