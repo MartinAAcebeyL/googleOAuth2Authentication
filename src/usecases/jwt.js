@@ -36,13 +36,17 @@ class JWTSingInUsecase {
     }
 
     getTokens(payload) {
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: ACCESS_TOKEN_TIME });
-        const refreshToken = jwt.sign(payload, JWT_SECRET, { expiresIn: REFRESH_TOKEN_TIME });
+        const token = jwt.sign(payload, JWT_SECRET, this.getJWTHeaders(ACCESS_TOKEN_TIME));
+        const refreshToken = jwt.sign(payload, JWT_SECRET, this.getJWTHeaders(REFRESH_TOKEN_TIME));
 
         return {
             access_token: token,
             refresh_token: refreshToken
         };
+    }
+
+    getJWTHeaders(expiresIn) {
+        return { algorithm: 'HS256', expiresIn };
     }
 
     makePayload(user) {
