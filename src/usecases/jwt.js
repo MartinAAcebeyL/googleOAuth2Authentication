@@ -51,11 +51,10 @@ class JWTSingInUsecase {
 
     makePayload(user) {
         return {
-            id: user.id,
+            user_id: user.id,
             email: user.email,
-            name: user.name + ' ' + user.lastname,
-            phone: user.phone,
             isInstitute: user.isInstitute,
+            is_complete_info: user.is_complete_info
         };
     }
 
